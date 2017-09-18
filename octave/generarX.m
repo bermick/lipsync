@@ -3,14 +3,15 @@
 	
 	h = 2205;
 	coef = ones(1, h)/h;
-	%archivo = '';
+	archivo = '/var/www/html/lipsync/wavs/voice.wav';
+	ruta = '/var/www/html/lipsync/csv/X.csv';
 
 	% lee el wav con fs = 44.1k; y nbits=16;
 	[x, fs] = wavread(archivo);
 	m = floor(size(x)(1) / fs);
 
 	% dejamos solo uno de los dos canales:
-	x = (x(:, 1));
+%	x = (x(:, 1));
 
 	%envoltura = filter(coef, 1, abs(hilbert(y)));
 	%salidaNormalizada = normalizeVector(envoltura);
@@ -36,7 +37,7 @@
 		size(salidaNormalizada);
 
 		% salidaNormalizada es de 44.1k elementos, muestrear cada 44 elementos para obtener un vector de 1000 elementos
-		salidaNormalizada2 = salidaNormalizada(1:44:end );
+		salidaNormalizada2 = salidaNormalizada(1:22:end );
 
 
 		%nombre del archivo en el que se guardará la salida
