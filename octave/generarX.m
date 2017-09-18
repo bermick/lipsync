@@ -1,17 +1,16 @@
 	pkg load signal;
 	pkg load geometry;
-	
-	h = 2205;
-	coef = ones(1, h)/h;
-	archivo = '/var/www/html/lipsync/wavs/voice.wav';
-	ruta = '/var/www/html/lipsync/csv/X.csv';
 
-	% lee el wav con fs = 44.1k; y nbits=16;
-	[x, fs] = wavread(archivo);
+	% lee el wav y pone en y 
+	[x, h, nbits] = wavread(archivo);
 	m = floor(size(x)(1) / fs);
 
 	% dejamos solo uno de los dos canales:
-%	x = (x(:, 1));
+	x = (x(:, 1));
+	
+	coef = ones(1, h)/h;
+	archivo = '/var/www/html/lipsync/wavs/voice.wav';
+	ruta = '/var/www/html/lipsync/csv/';
 
 	%envoltura = filter(coef, 1, abs(hilbert(y)));
 	%salidaNormalizada = normalizeVector(envoltura);
@@ -25,6 +24,8 @@
 
 	X = zeros(m,1000);
 
+	paso = idivide (int16 (h), int16 (1000) "fix");
+
 	for j = 1:m
 		% obtener los j-ésimos 44.1k (1 segundo) elementos
 		y = x( (fs*(j-1) + 1 ): fs*j );
@@ -37,7 +38,7 @@
 		size(salidaNormalizada);
 
 		% salidaNormalizada es de 44.1k elementos, muestrear cada 44 elementos para obtener un vector de 1000 elementos
-		salidaNormalizada2 = salidaNormalizada(1:22:end );
+		salidaNormalizada2 = salidaNormalizada(1:paso:end );
 
 
 		%nombre del archivo en el que se guardará la salida
