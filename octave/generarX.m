@@ -1,15 +1,19 @@
+#! /usr/bin/octave-cli -qf
 	pkg load signal;
 	pkg load geometry;
 
+	archivo = '/var/www/html/lipsync/wavs/voice.wav';
+
 	% lee el wav y pone en y 
 	[x, h, nbits] = wavread(archivo);
-	m = floor(size(x)(1) / fs);
+	fs = h;
+	m = floor(size(x)(1) / h);
 
 	% dejamos solo uno de los dos canales:
 	x = (x(:, 1));
-	
+
 	coef = ones(1, h)/h;
-	archivo = '/var/www/html/lipsync/wavs/voice.wav';
+
 	ruta = '/var/www/html/lipsync/csv/';
 
 	%envoltura = filter(coef, 1, abs(hilbert(y)));
@@ -24,7 +28,7 @@
 
 	X = zeros(m,1000);
 
-	paso = idivide (int16 (h), int16 (1000) "fix");
+	paso = idivide (int16 (h), int16 (1000), 'fix');
 
 	for j = 1:m
 		% obtener los j-ésimos 44.1k (1 segundo) elementos
@@ -59,9 +63,6 @@
 
 
 	csvwrite([ruta 'X.csv'], X);
-	
-	fprintf('X.csv generado. Enter para truncar sus valores\n');
-	pause;
 
 	%truncar X
 	X = csvread([ruta 'X.csv']);
