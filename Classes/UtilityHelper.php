@@ -4,27 +4,36 @@ namespace App\Classes;
 
 require __DIR__.'/../vendor/autoload.php';
 
-use \Slim\Http\UloadedFile as UploadedFile;
-
 class UtilityHelper
 {
 	public static function moveUploadedFile($directory, \Slim\Http\UploadedFile $uploadedFile)
 	{
 	    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-	    $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
-	    $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-	    $filename = $directory . "voice.wav";
+	    $filename = $directory . "voice." . $extension;
 	    if(file_exists($filename)) unlink($filename);
 	    $uploadedFile->moveTo($filename);
 	    chmod($filename, 0775);
-	    return $filename;
+	    return [$filename, $extension];
 	}
 
-	public static function callOctaveScript()
+	public static function convertUploadedFile($filename, $fileExtension)
 	{
-    	$cmd = "octave-cli -qf /var/www/html/lipsync/octave/generarX.m";
+		if($fileExtension == 'wav')
+			return true;
+
+		$wavRateFile = '44100';
+		$wavFile = 'wavs/voice.wav';
+
+		$convertToWavCmd = 'mpg123 --wav {$wavFile} --rate {$wavRateFile} {$filename}';
+		callExternalScript($convertToWavCmd);
+		return chmod($wavFile, 0775)
+	}
+
+	public static function callExternalScript($command, $viewResult = false)
+	{
     	$execResult = exec($cmd);
-    	return $execResult;
+    	if($viewResult)
+    		return $execResult;
 	}
 }

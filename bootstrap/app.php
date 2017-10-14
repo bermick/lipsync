@@ -25,10 +25,17 @@ $app->post('/upload', function(Request $request, Response $response) {
     // handle single input with single file upload
     $uploadedFile = $uploadedFiles['file'];
     $response->write($uploadedFile->getError());
-	if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-        $filename = UtilityHelper::moveUploadedFile($directory, $uploadedFile);
-        $response->write('success');
+    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+        list($filename, $extension) = UtilityHelper::moveUploadedFile($directory, $uploadedFile);
+        $achieved = UtilityHelper::convertUploadedFile($filename, $extension);
+        if($achieved)
+            $response->write('success');
     }
+});
+
+$app->post('/generate', function(Request $request, Response $response) {
+    $result = UtilityHelper::callExternalScript("octave-cli -qf /home/ubuntu/public_html/lipsync/octave/generarX.m", true);
+    $response->write($result);
 });
 
 

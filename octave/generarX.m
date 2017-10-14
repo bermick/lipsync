@@ -2,7 +2,7 @@
 	pkg load signal;
 	pkg load geometry;
 
-	archivo = '/var/www/html/lipsync/wavs/voice.wav';
+	archivo = '/home/ubuntu/public_html/lipsync/wavs/voice.wav';
 
 	% lee el wav y pone en y 
 	[x, h, nbits] = wavread(archivo);
@@ -14,7 +14,7 @@
 
 	coef = ones(1, h)/h;
 
-	ruta = '/var/www/html/lipsync/csv/';
+	ruta = '/home/ubuntu/public_html/lipsync/csv/';
 
 	%envoltura = filter(coef, 1, abs(hilbert(y)));
 	%salidaNormalizada = normalizeVector(envoltura);
