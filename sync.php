@@ -10,7 +10,7 @@
     <!--<textarea id="resultados" cols="60" rows="40"></textarea>-->
     <iframe src="" id="edge" style="width:300px; height:380px;"></iframe>
     <div id="resultado" style="width:80%; height:100px;"></div>
-    <form method="post" action="/lipsync/upload" id="subir">
+    <form method="post" id="subir">
       <p>
         <label>Add file:</label>
         <br><input type="file" id="fileField" name="example" >
@@ -44,7 +44,7 @@
       console.log(file_data);
       console.dir(form_data);                             
       $.ajax({
-        url: '/lipsync/upload', // point to server-side PHP script 
+        url: '/~ubuntu/lipsync/upload', // point to server-side PHP script 
         dataType: 'text',  // what to expect back from the PHP script, if anything
         cache: false,
         contentType: false,

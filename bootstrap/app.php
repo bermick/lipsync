@@ -15,13 +15,17 @@ $app = new \Slim\App([
 
 $container = $app->getContainer();
 
-$app->post('/upload', function(Request $request, Response $response) {
-    $directory = dirname(__DIR__) . 'wavs/';
+$app->get('/test', function(Request $request, Response $response) {
+	$response->write('prueba');
+});
 
+$app->post('/upload', function(Request $request, Response $response) {
+    $directory = dirname(__DIR__) . '/wavs/';
     $uploadedFiles = $request->getUploadedFiles();
     // handle single input with single file upload
     $uploadedFile = $uploadedFiles['file'];
-    if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+    $response->write($uploadedFile->getError());
+	if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
         $filename = UtilityHelper::moveUploadedFile($directory, $uploadedFile);
         $response->write('success');
     }
