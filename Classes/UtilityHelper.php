@@ -25,4 +25,11 @@ class UtilityHelper
 	    chmod($filename, 0775);
 	    return $filename;
 	}
+
+	public static function callOctaveScript()
+	{
+    	$cmd = "octave-cli -qf /var/www/html/lipsync/octave/generarX.m";
+    	$execResult = exec($cmd);
+    	return $execResult;
+	}
 }

@@ -23,10 +23,7 @@ $app->post('/upload', function(Request $request, Response $response) {
     $uploadedFile = $uploadedFiles['file'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
         $filename = UtilityHelper::moveUploadedFile($directory, $uploadedFile);
-        $response->write('uploaded ' . $filename . '<br/>');
-    	$cmd = "octave-cli -qf /var/www/html/lipsync/octave/generarX.m";
-    	echo exec($cmd);
-    	$response->write('processed by octave');
+        $response->write('success');
     }
 });
 
