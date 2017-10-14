@@ -14,26 +14,19 @@ $app = new \Slim\App([
 ]);
 
 $container = $app->getContainer();
-$container['upload_directory'] = '/tmp/';
-
-$app->get('/', function($request, $response){
-	return 'Home';
-});
-
 
 $app->post('/upload', function(Request $request, Response $response) {
-    $directory = '/tmp/';// $this->get('upload_directory');
+    $directory = dirname(__DIR__) . 'wavs/';
 
     $uploadedFiles = $request->getUploadedFiles();
-//echo $response->write($uploadedFiles);
     // handle single input with single file upload
     $uploadedFile = $uploadedFiles['file'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
         $filename = moveUploadedFile($directory, $uploadedFile);
         $response->write('uploaded ' . $filename . '<br/>');
-	$cmd = "octave-cli -qf /var/www/html/lipsync/octave/generarX.m";
-	echo exec($cmd);
-	$response->write('processed by octave');
+    	$cmd = "octave-cli -qf /var/www/html/lipsync/octave/generarX.m";
+    	echo exec($cmd);
+    	$response->write('processed by octave');
     }
 });
 
@@ -51,10 +44,10 @@ function moveUploadedFile($directory, UploadedFile $uploadedFile)
     $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
     $filename = sprintf('%s.%0.8s', $basename, $extension);
 
-    $filename = "/var/www/html/lipsync/wavs/voice.wav";
+    $filename = $directory . "voice.wav";
     if(file_exists($filename)) unlink($filename);
     $uploadedFile->moveTo($filename);
-    chmod($filename, 0777);
+    chmod($filename, 0775);
     return $filename;
 }
 
