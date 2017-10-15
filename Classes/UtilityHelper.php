@@ -37,7 +37,7 @@ class UtilityHelper
 
 		if(!chmod($wavFile, 0775))
 			return false;
-		if(!rename($filename, $edgeMediaFile))
+		if(!rename($wavFile, $edgeMediaFile))
 			return false;
 
 		return true;
