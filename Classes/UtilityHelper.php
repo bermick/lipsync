@@ -20,12 +20,12 @@ class UtilityHelper
 	public static function prepareAudioForEdge($filename, $fileExtension)
 	{
 		$edgeMediaFile = __DIR__.'/../edge/media/audio.wav';
-		
+
 		if(file_exists($edgeMediaFile))
 			unlink($edgeMediaFile);
 
 		if($fileExtension == 'wav'){
-			rename($filename, $edgeMediaFile);
+			copy($filename, $edgeMediaFile);
 			return true;
 		}
 
@@ -37,7 +37,7 @@ class UtilityHelper
 
 		if(!chmod($wavFile, 0775))
 			return false;
-		if(!rename($wavFile, $edgeMediaFile))
+		if(!copy($wavFile, $edgeMediaFile))
 			return false;
 
 		return true;
