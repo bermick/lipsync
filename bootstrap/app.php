@@ -26,7 +26,7 @@ $app->post('/upload', function(Request $request, Response $response) {
     $uploadedFile = $uploadedFiles['file'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
         list($filename, $extension) = UtilityHelper::moveUploadedFile($directory, $uploadedFile);
-        $achieved = UtilityHelper::convertUploadedFile($filename, $extension);
+        $achieved = UtilityHelper::prepareAudioForEdge($filename, $extension);
         if($achieved)
             $response->write('success');
     }

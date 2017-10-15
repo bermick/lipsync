@@ -17,17 +17,30 @@ class UtilityHelper
 	    return [$filename, $extension];
 	}
 
-	public static function convertUploadedFile($filename, $fileExtension)
+	public static function prepareAudioForEdge($filename, $fileExtension)
 	{
-		if($fileExtension == 'wav')
+		$edgeMediaFile = __DIR__.'/../edge/media/audio.wav';
+		
+		if(file_exists($edgeMediaFile))
+			unlink($edgeMediaFile);
+
+		if($fileExtension == 'wav'){
+			rename($filename, $edgeMediaFile);
 			return true;
+		}
 
 		$wavRateFile = '44100';
 		$wavFile = 'wavs/voice.wav';
 
 		$convertToWavCmd = 'mpg123 --wav ' . $wavFile. ' --rate ' . $wavRateFile .' '. $filename;
 		self::callExternalScript($convertToWavCmd);
-		return chmod($wavFile, 0775);
+
+		if(!chmod($wavFile, 0775))
+			return false;
+		if(!rename($filename, $edgeMediaFile))
+			return false;
+
+		return true;
 	}
 
 	public static function callExternalScript($command, $viewResult = false)
