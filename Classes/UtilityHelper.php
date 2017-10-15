@@ -26,7 +26,6 @@ class UtilityHelper
 		$wavFile = 'wavs/voice.wav';
 
 		$convertToWavCmd = 'mpg123 --wav ' . $wavFile. ' --rate ' . $wavRateFile .' '. $filename;
-echo $convertToWavCmd;
 		self::callExternalScript($convertToWavCmd);
 		return chmod($wavFile, 0775);
 	}

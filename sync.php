@@ -6,8 +6,8 @@
   <title>Resultados</title>
   </head>
   <body>
-    <a href="#" id="fileinput" />sincronizar</a><br>
-    <!--<textarea id="resultados" cols="60" rows="40"></textarea>-->
+    <a href="#" id="generate" />generar</a><br>
+    <a href="#" id="fileinput" />reproducir</a><br>
     <iframe src="" id="edge" style="width:300px; height:380px;"></iframe>
     <div id="resultado" style="width:80%; height:100px;"></div>
     <form method="post" id="subir">
@@ -44,19 +44,33 @@
       console.log(file_data);
       console.dir(form_data);                             
       $.ajax({
-        url: '/~ubuntu/lipsync/upload', // point to server-side PHP script 
-        dataType: 'text',  // what to expect back from the PHP script, if anything
+        url: '/~ubuntu/lipsync/upload',
+        dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: form_data,
         type: "POST",
         success: function(php_script_response){
-          console.log("RESPONSE: " + php_script_response); // display response from the PHP script, if any
+          console.log("RESPONSE: " + php_script_response);
         }
       });
       return false;
       });
+  
+    $('#generate').on('click', function(){
+      $.ajax({
+        url: '/~ubuntu/lipsync/generate', 
+        dataType: 'text',  // response type
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: "POST",
+        success: function(response){
+          console.log("GENERATE RESPONSE: " + response);
+        }
+      });
+    });
   });
 
   function continuar(){
@@ -87,7 +101,6 @@
         tmp[i][j] = mat[i][j] > p ? 1 : 0;
       }
     }
-    //document.getElementById('resultados').value = tmp;
     return tmp;
   }
   /////////////////////////////
@@ -98,13 +111,10 @@
       for(var j = 0; j < 20; j++){ 
         if(contents[i][j] > 0){
           tiemposFinales[ c ] = ( ((i*20) + j)*50 ) + 5 ; // se suma un desplazamiento de 5
-          //console.log("arreglo[" + i + "][" + j + "] " + arreglo[i][j]);
           c++;
         }
       }
     }
-    //console.table(contents);
-    //console.log(tiemposFinales);
     crearLineaTiempo();
   }
 
@@ -132,7 +142,6 @@
     }
       if(debug)console.log(final);
       
-     
      $.ajax({
           type: "POST",
           url: "generarJS.php",
@@ -144,11 +153,7 @@
               $('#edge').attr('src', 'edge/base.html');
           }
       });
-
-      //document.getElementById('resultado').innerHTML = final;
   }
-  /////////////////////////////
-
 
   function transponer(arr){
     arr = arr[0].map(function(col, i) { 
@@ -214,8 +219,6 @@ function procesarDatos(csv, contenedor) {
         for(var j = 0; j < 1000; j++)
           contenedor[i][j] = parseFloat(contenedor[i][j]);
     }
-
-    //console.log(contenedor[0][0])
 }
 </script>
   </body>

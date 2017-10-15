@@ -79,3 +79,5 @@
 		end
 
 	csvwrite([ruta 'X_truncada.csv'], X);
+
+	fprintf('1');

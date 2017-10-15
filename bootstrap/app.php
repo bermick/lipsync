@@ -34,7 +34,10 @@ $app->post('/upload', function(Request $request, Response $response) {
 
 $app->post('/generate', function(Request $request, Response $response) {
     $result = UtilityHelper::callExternalScript("octave-cli -qf /home/ubuntu/public_html/lipsync/octave/generarX.m", true);
-    $response->write($result);
+    if($result == "1")
+        $response->write('success');
+    else
+        $response->write('error');
 });
 
 
