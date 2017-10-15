@@ -24,7 +24,6 @@ $app->post('/upload', function(Request $request, Response $response) {
     $uploadedFiles = $request->getUploadedFiles();
     // handle single input with single file upload
     $uploadedFile = $uploadedFiles['file'];
-    $response->write($uploadedFile->getError());
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
         list($filename, $extension) = UtilityHelper::moveUploadedFile($directory, $uploadedFile);
         $achieved = UtilityHelper::convertUploadedFile($filename, $extension);

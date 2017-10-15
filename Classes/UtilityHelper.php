@@ -25,14 +25,15 @@ class UtilityHelper
 		$wavRateFile = '44100';
 		$wavFile = 'wavs/voice.wav';
 
-		$convertToWavCmd = 'mpg123 --wav {$wavFile} --rate {$wavRateFile} {$filename}';
-		callExternalScript($convertToWavCmd);
-		return chmod($wavFile, 0775)
+		$convertToWavCmd = 'mpg123 --wav ' . $wavFile. ' --rate ' . $wavRateFile .' '. $filename;
+echo $convertToWavCmd;
+		self::callExternalScript($convertToWavCmd);
+		return chmod($wavFile, 0775);
 	}
 
 	public static function callExternalScript($command, $viewResult = false)
 	{
-    	$execResult = exec($cmd);
+    	$execResult = exec($command);
     	if($viewResult)
     		return $execResult;
 	}
