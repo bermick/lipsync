@@ -32,7 +32,7 @@ class UtilityHelper
 		$wavRateFile = '44100';
 		$wavFile = 'wavs/voice.wav';
 
-		$convertToWavCmd = 'sudo -u ubuntu mpg123 --wav ' . $wavFile. ' --rate ' . $wavRateFile .' '. $filename;
+		$convertToWavCmd = 'mpg123 --wav ' . $wavFile. ' --rate ' . $wavRateFile .' '. $filename;
 		self::callExternalScript($convertToWavCmd);
 
 		if(!chmod($wavFile, 0775))
