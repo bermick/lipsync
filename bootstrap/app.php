@@ -15,10 +15,6 @@ $app = new \Slim\App([
 
 $container = $app->getContainer();
 
-$app->get('/test', function(Request $request, Response $response) {
-	$response->write('prueba');
-});
-
 $app->post('/upload', function(Request $request, Response $response) {
     $directory = dirname(__DIR__) . '/wavs/';
     $uploadedFiles = $request->getUploadedFiles();

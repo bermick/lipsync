@@ -31,10 +31,10 @@
   $(document).ready(function() {
     document.getElementById('fileinput').addEventListener('click', continuar, false);
 
-    leerArchivo("Theta1.csv", Theta1);
-    leerArchivo("Theta2.csv", Theta2);
+    leerArchivo("csv/Theta1.csv", Theta1);
+    leerArchivo("csv/Theta2.csv", Theta2);
 
-    leerArchivo("X.csv", X);
+    leerArchivo("csv/X.csv", X);
 
     $('#subir').submit(function() {
       var file_data = $('#fileField').prop('files')[0];   
@@ -201,11 +201,11 @@
   }
 
   function leerArchivo(fileName, contenedor) {
-    //var f = evt.target.files[0];
     $.ajax({
         type: "GET",
-        url: "csv/"+fileName,
+        url: filePath,
         dataType: "text",
+        cache: false,
         success: function(csv) {procesarDatos(csv, contenedor);}
      });
   }
