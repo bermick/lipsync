@@ -1,5 +1,8 @@
 <?php 
-
+    // File that creates Adobe Edge Json File
+    // Inserts the string of the generated timings in the 'mouth' timeline object
+    // Here we could change Stage options like width, height, file scripts, etc.
+    
 	$inicio = "/*jslint */
 /*global AdobeEdge: false, window: false, document: false, console:false, alert: false */
 (function (compId) {
@@ -221,14 +224,11 @@
 	$data = $_POST['data'];
 	$cadena = implode(",", $data);
 	
-	echo gettype($cadena);
 
-	$archivo = $inicio . $cadena . $fin;
-
-	/*  
-	  Escribir archivo
-	*/
-	$f = fopen("edge/base_edge.js", "w") or die("No se puede abrir el archivo");
-	fwrite($f, $archivo);
-	fclose($f);
+    $archivo = $inicio . $cadena . $fin;
+    
+    $f = fopen("edge/base_edge.js", "w") or die("No se puede abrir el archivo");
+    fwrite($f, $archivo);
+    fclose($f);
+	echo 'base_edge json file created';
 ?>
